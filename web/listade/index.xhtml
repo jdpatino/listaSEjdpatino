@@ -41,80 +41,82 @@
         <p:growl id="grwlErrores"/>
         <h:form id="frmInfante">
             <p:commandButton value="Volver" action="inicio" />
-            <p:panel header="Lista Simplemente Enlazada Infantes - Total Infantes #{sesionInfante.listaInfantes.contarNodos()}">
+            <p:panel header="Lista Doblemente Enlazada Infantes - Total Infantes #{sesionInfanteDE.listaInfantes.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Infante">
 
                         <p:panelGrid columns="2">
                             <p:outputLabel for="txtNombre" value="Nombre"/>
-                            <p:inputText id="txtNombre" required="true" disabled="#{sesionInfante.deshabilitarFormulario}"
-                                         value="#{sesionInfante.infante.nombre}"   />
+                            <p:inputText id="txtNombre" required="true" disabled="#{sesionInfanteDE.deshabilitarFormulario}"
+                                         value="#{sesionInfanteDE.infante.nombre}"   />
                             <p:outputLabel for="spEdad" value="Edad"/>
-                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionInfante.deshabilitarFormulario}"
-                                       value="#{sesionInfante.infante.edad}"/>
+                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionInfanteDE.deshabilitarFormulario}"
+                                       value="#{sesionInfanteDE.infante.edad}"/>
                             <p:outputLabel value="Género"/>
-                            <p:selectOneMenu value="#{sesionInfante.infante.genero}"
-                                             disabled="#{sesionInfante.deshabilitarFormulario}">
+                            <p:selectOneMenu value="#{sesionInfanteDE.infante.genero}"
+                                             disabled="#{sesionInfanteDE.deshabilitarFormulario}">
                                 <f:selectItem itemLabel="Niño" itemValue="true"/>
                                 <f:selectItem itemLabel="Niña" itemValue="false"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Departamento"/>
-                            <p:selectOneMenu value="#{sesionInfante.codigoDeptoSel}" disabled="#{sesionInfante.deshabilitarFormulario}" >
-                                <f:selectItems value="#{sesionInfante.controlLocalidades.departamentos}" 
+                            <p:selectOneMenu value="#{sesionInfanteDE.codigoDeptoSel}" disabled="#{sesionInfanteDE.deshabilitarFormulario}" >
+                                <f:selectItems value="#{sesionInfanteDE.controlLocalidades.departamentos}" 
                                                var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
                                                />
                                 <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Ciudad"/>
-                            <p:selectOneMenu id="cmbCiudad" value="#{sesionInfante.infante.ciudadNacimiento}" disabled="#{sesionInfante.deshabilitarFormulario}"  >
-                                <f:selectItems value="#{sesionInfante.controlLocalidades.obtenerCiudadesxDepto(sesionInfante.codigoDeptoSel)}" 
+                            <p:selectOneMenu id="cmbCiudad" value="#{sesionInfanteDE.infante.ciudadNacimiento}" disabled="#{sesionInfanteDE.deshabilitarFormulario}"  >
+                                <f:selectItems value="#{sesionInfanteDE.controlLocalidades.obtenerCiudadesxDepto(sesionInfanteDE.codigoDeptoSel)}" 
                                                var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
                                                />
                             </p:selectOneMenu>
 
 
                             <p:outputLabel value="Al inicio"/>
-                            <p:selectOneMenu value="#{sesionInfante.alInicio}" disabled="#{sesionInfante.deshabilitarFormulario}">
+                            <p:selectOneMenu value="#{sesionInfanteDE.alInicio}" disabled="#{sesionInfanteDE.deshabilitarFormulario}">
                                 <f:selectItem itemLabel="SI" itemValue="1"/>
                                 <f:selectItem itemLabel="NO" itemValue="0"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
-                                         action="#{sesionInfante.guardarInfante()}" disabled="#{sesionInfante.deshabilitarFormulario}"/>
+                                         action="#{sesionInfanteDE.guardarInfante()}" disabled="#{sesionInfanteDE.deshabilitarFormulario}"/>
 
-                        <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfante.habilitarFormulario()}"
-                                         disabled="#{!sesionInfante.deshabilitarFormulario}"
+                        <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfanteDE.habilitarFormulario()}"
+                                         disabled="#{!sesionInfanteDE.deshabilitarFormulario}"
                                          />
                         <p:commandButton value="Invertir"  update="frmInfante,:grwlErrores"
-                                         action="#{sesionInfante.invertirLista()}"
+                                         action="#{sesionInfanteDE.invertirLista()}"
                                          />
-                        <p:panelGrid columns="3">
-                            <p:commandButton value="Primero" action="#{sesionInfante.irPrimero()}" 
+                        <p:panelGrid columns="4">
+                            <p:commandButton value="Primero" action="#{sesionInfanteDE.irPrimero()}" 
                                              update="frmInfante"/>
-                            <p:commandButton value="Siguiente" action="#{sesionInfante.irSiguiente()}"
+                            <p:commandButton value="Anterior" action="#{sesionInfanteDE.irAnterior()}"
+                                             update="frmInfante"/>
+                            <p:commandButton value="Siguiente" action="#{sesionInfanteDE.irSiguiente()}"
                                              update="frmInfante"/>       
-                            <p:commandButton value="Último" action="#{sesionInfante.irUltimo()}" 
+                            <p:commandButton value="Último" action="#{sesionInfanteDE.irUltimo()}" 
                                              update="frmInfante"/>                           
 
                         </p:panelGrid>
                         <p:outputLabel value="Código a eliminar: "/>
-                        <p:inputText value="#{sesionInfante.codigoEliminar}" maxlength="4" size="10"/>
-                        <p:commandButton value="Eliminar" action="#{sesionInfante.eliminarInfante()}" 
+                        <p:inputText value="#{sesionInfanteDE.codigoEliminar}" maxlength="4" size="10"/>
+                        <p:commandButton value="Eliminar" action="#{sesionInfanteDE.eliminarInfante()}" 
                                          update="frmInfante,:grwlErrores"
                                          />
                     </p:panel>
                     <p:panel header="Reportes">
-                        <p:outputLabel value="Promedio de Edad de los infantes: #{sesionInfante.listaInfantes.promediarEdades()}"/>
+                        <p:outputLabel value="Promedio de Edad de los infantes: #{sesionInfanteDE.listaInfantes.promediarEdades()}"/>
                         <br/>
-                        <p:outputLabel value="#{sesionInfante.listaInfantes.obtenerListadoInfantes()}"/>
+                        <p:outputLabel value="#{sesionInfanteDE.listaInfantes.obtenerListadoInfantes()}"/>
                         <br/>
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cantidad Niños: "/>
-                            <p:outputLabel value="#{sesionInfante.listaInfantes.contarInfantesxGenero(true)}"/>               
+                            <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(true)}"/>               
                             <p:outputLabel value="Cantidad Niñas: "/>
-                            <p:outputLabel value="#{sesionInfante.listaInfantes.contarInfantesxGenero(false)}"/>
+                            <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(false)}"/>
                         </h:panelGrid>
                     </p:panel>
 
@@ -122,11 +124,11 @@
                 </p:panelGrid>
 
                 <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
-                    <p:commandButton value="#{sesionInfante.textoVista}" 
-                                     action="#{sesionInfante.cambiarVistaInfantes()}"
+                    <p:commandButton value="#{sesionInfanteDE.textoVista}" 
+                                     action="#{sesionInfanteDE.cambiarVistaInfantes()}"
                                      update="pnlVista"/>
 
-                    <p:dataTable rendered="#{sesionInfante.textoVista=='Gráfico'}"  value="#{sesionInfante.listadoInfantes}" var="inf">
+                    <p:dataTable rendered="#{sesionInfanteDE.textoVista=='Gráfico'}"  value="#{sesionInfanteDE.listadoInfantes}" var="inf">
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
@@ -160,10 +162,10 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:diagram id="diagrama" rendered="#{sesionInfante.textoVista=='Tabla'}" value="#{sesionInfante.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}" value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
-                                     actionListener="#{sesionInfante.onClickRight()}" 
+                                     actionListener="#{sesionInfanteDE.onClickRight()}" 
                                      >
                     </p:remoteCommand>
 
@@ -184,14 +186,14 @@
                                    targetFilter=".ui-diagram-element"
                                    >
                         <p:menuitem value="Ver datos" 
-                                    action="#{sesionInfante.obtenerInfanteDiagrama()}" 
+                                    action="#{sesionInfanteDE.obtenerInfanteDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
                         <p:menuitem value="Eliminar"/>
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
-                                    action="#{sesionInfante.enviarAlFinal()}"/>
+                                    action="#{sesionInfanteDE.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
-                                    action="#{sesionInfante.enviarAlInicio()}"                                    
+                                    action="#{sesionInfanteDE.enviarAlInicio()}"                                    
                                     />
                         <p:menuitem value="Adelantar/Perder Posición"/>
                     </p:contextMenu>
@@ -203,12 +205,12 @@
                 <p:panel id="panelInfante">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
-                        <h:outputText value="#{sesionInfante.infanteDiagrama.codigo}" />
+                        <h:outputText value="#{sesionInfanteDE.infanteDiagrama.codigo}" />
                         <h:outputText value="Nombre:" />
-                        <h:outputText value="#{sesionInfante.infanteDiagrama.nombre}" />
+                        <h:outputText value="#{sesionInfanteDE.infanteDiagrama.nombre}" />
                         <h:outputText value="Género:" />
-                        <h:outputText rendered="#{sesionInfante.infanteDiagrama.genero}" value="Masculino" />
-                        <h:outputText rendered="#{!sesionInfante.infanteDiagrama.genero}" value="Femenino" />
+                        <h:outputText rendered="#{sesionInfanteDE.infanteDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionInfanteDE.infanteDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
                     
                 </p:panel>
