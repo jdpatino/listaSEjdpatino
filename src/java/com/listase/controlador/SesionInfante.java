@@ -15,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
@@ -51,6 +52,8 @@ public class SesionInfante implements Serializable {
     
     private String codigoDeptoSel;
     
+    private short infanteSeleccionado;
+    
     /**
      * Creates a new instance of SesionInfante
      */
@@ -80,6 +83,16 @@ public class SesionInfante implements Serializable {
         listadoInfantes = listaInfantes.obtenerListaInfantes();
         pintarLista();
    }
+
+    public short getInfanteSeleccionado() {
+        return infanteSeleccionado;
+    }
+
+    public void setInfanteSeleccionado(short infanteSeleccionado) {
+        this.infanteSeleccionado = infanteSeleccionado;
+    }
+    
+    
 
     public String getCodigoDeptoSel() {
         return codigoDeptoSel;
@@ -292,6 +305,7 @@ public class SesionInfante implements Serializable {
                 Element ele = new Element(temp.getDato().getCodigo()+" "+
                         temp.getDato().getNombre(), 
                         posX+"em", posY+"em");
+                ele.setId(String.valueOf(temp.getDato().getCodigo()));
                 //adiciona un conector al cuadrito
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_RIGHT));
@@ -309,6 +323,14 @@ public class SesionInfante implements Serializable {
             }
             
         }
+    }
+    
+    public void onClickRight() {
+        String id = FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestParameterMap().get("elementId");
+         
+        infanteSeleccionado = Short.valueOf(id.replaceAll("frmInfante:diagrama-", ""));
+        
     }
 
     public void eliminarInfante()
@@ -331,6 +353,5 @@ public class SesionInfante implements Serializable {
             JsfUtil.addErrorMessage("El código a eliminar "+codigoEliminar+ " no es válido");
         }
     }
-    
     
 }
